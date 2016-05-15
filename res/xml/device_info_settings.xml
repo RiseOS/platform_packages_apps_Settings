@@ -31,6 +31,12 @@
                 android:summary="@string/device_status_summary"
                 android:fragment="com.android.settings.deviceinfo.Status"/>
 
+        <!-- Changelog -->
+        <Preference
+            android:key="changelog"
+            android:title="@string/changelog_aosp_title"
+            android:fragment="com.android.settings.aosp.Changelog" />
+
         <!-- Manual -->
         <Preference
                 android:key="manual"

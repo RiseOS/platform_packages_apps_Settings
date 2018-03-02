@@ -43,6 +43,9 @@ import com.android.settings.search.Indexable;
 import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.lifecycle.Lifecycle;
 
+/* Rise OS version */
+import com.android.settings.deviceinfo.RiseOSVersionPreferenceController;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,6 +134,8 @@ public class DeviceInfoSettings extends DashboardFragment implements Indexable {
         controllers.add(new FccEquipmentIdPreferenceController(context));
         controllers.add(new SELinuxStatusPreferenceController(context));
         controllers.add(new SafetyInfoPreferenceController(context));
+        /* Rise OS version */
+        controllers.add(new RiseOSVersionPreferenceController(context));
         return controllers;
     }
 

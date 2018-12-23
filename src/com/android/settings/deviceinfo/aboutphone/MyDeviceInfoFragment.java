@@ -50,6 +50,7 @@ import com.android.settings.deviceinfo.WifiMacAddressPreferenceController;
 import com.android.settings.deviceinfo.firmwareversion.FirmwareVersionPreferenceController;
 import com.android.settings.deviceinfo.imei.ImeiInfoPreferenceController;
 import com.android.settings.deviceinfo.simstatus.SimStatusPreferenceController;
+import com.android.settings.deviceinfo.riseosversion.RiseOSPreferenceController;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.widget.EntityHeaderController;
 import com.android.settingslib.core.AbstractPreferenceController;
@@ -65,6 +66,7 @@ public class MyDeviceInfoFragment extends DashboardFragment
 
     private static final String KEY_MY_DEVICE_INFO_HEADER = "my_device_info_header";
     private static final String KEY_LEGAL_CONTAINER = "legal_container";
+    private static final String KEY_RISEOS_INFO_HEADER = "riseos_version";
 
     @Override
     public int getMetricsCategory() {
@@ -80,6 +82,7 @@ public class MyDeviceInfoFragment extends DashboardFragment
     public void onResume() {
         super.onResume();
         initHeader();
+        initROSHeader();
     }
 
     @Override
@@ -129,6 +132,7 @@ public class MyDeviceInfoFragment extends DashboardFragment
         controllers.add(new FccEquipmentIdPreferenceController(context));
         controllers.add(
                 new BuildNumberPreferenceController(context, activity, fragment, lifecycle));
+        controllers.add(new RiseOSPreferenceController(context, fragment));
         return controllers;
     }
 
@@ -165,6 +169,25 @@ public class MyDeviceInfoFragment extends DashboardFragment
             controller.setIcon(
                     com.android.settingslib.Utils.getUserIcon(getActivity(), userManager, info));
         }
+
+        controller.done(context, true /* rebindActions */);
+    }
+
+    private void initROSHeader() {
+        // TODO: Migrate into its own controller.
+        final LayoutPreference headerPreference =
+                (LayoutPreference) getPreferenceScreen().findPreference(KEY_RISEOS_INFO_HEADER);
+        final View appSnippet = headerPreference.findViewById(R.id.entity_header);
+        final Activity context = getActivity();
+        final Bundle bundle = getArguments();
+        EntityHeaderController controller = EntityHeaderController
+                .newInstance(context, this, appSnippet)
+                .setRecyclerView(getListView(), getLifecycle())
+                .setButtonActions(EntityHeaderController.ActionType.ACTION_NONE,
+                        EntityHeaderController.ActionType.ACTION_NONE);
+
+        controller.setIcon(getResources().getDrawable(R.drawable.ic_ros_24dp));
+        controller.setLabel(getResources().getString(R.string.ros_about));
 
         controller.done(context, true /* rebindActions */);
     }
